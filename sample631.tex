@@ -152,7 +152,7 @@
 %% If you wish, you may supply running head information, although
 %% this information may be modified by the editorial offices.
 \shorttitle{Spacing and Number of Anemometers}
-\shortauthors{Jackson \& Swann}
+\shortauthors{Jackson}
 %%
 %% You can add a light gray and diagonal water-mark to the first page 
 %% with this command:
@@ -228,12 +228,6 @@
 Boise State University\\ 
 1910 University Drive, Boise ID 83725-1570 USA}
 
-\author{Christy Swann}
-\affiliation{Sediment Dynamics Section, \\ 
-Seafloor Sciences Branch, Marine Geosciences Division, \\ 
-U.S. Naval Research Laboratory, \\ 
-Stennis Space Center, MS USA}
-
 %% Note that the \and command from previous versions of AASTeX is now
 %% depreciated in this version as it is no longer necessary. AASTeX 
 %% automatically takes care of all commas and "and"s between authors names.
@@ -284,6 +278,31 @@ We explore how the vertical spacing and number of anemometers impact estimates o
 %% bibtext sample631
 %% pdflatex sample631.tex
 %% pdflatex sample631.tex
+
+\section{Model}
+According to the Law of the Wall (ref), the velocity profile $u(z)$ as a function of elevation above the surface $z$ is given by
+\begin{equation}
+    u(z) = \frac{u_\star}{\kappa} \ln \left( \frac{z}{z_\star} \right),\label{eqn:uz_profile}
+\end{equation}
+where $u_\star$ is the friction velocity, $\kappa$ is von K\'{a}rm\'{a}n's constant (0.4), and $z_\star$ is the roughness length. (N.B. $z_\star$ is usually denoted as $z_0$, but for notational convenience, we will use this alternate notation.) This equation can be re-cast as a linear equation:
+\begin{equation}
+    y(x) = b x + a,\label{eqn:linear_eqn}
+\end{equation}
+with $x = \ln \left( z/z_0 \right)$ with $z_0$ the height of the lowest anemometer, $b = u_\star/\kappa$, $a = -\left(u_\star/\kappa\right) \ln\left( z_\star/z_0 \right)$.
+
+Assume there are $N$ anemometers strung along a mast with the $i$th anemometer at a height $z_i$ (with $i \in [0, N-1]$). Usually, the anemometers are spaced logarithmically, i.e. $z_{i+1}/z_i = \delta z$ with $\delta z$ a constant for all $i$ (which translates into a regular spacing $\delta x$ for the $x_i$). The $i$th anemometer will measure windspeed $y_i = y(x_i)$ with an uncertainty or scatter $\sigma_i$. Traditionally, we would estimate the best-fit slope $b$ and intercept $a$ (and therefrom $u_\star$ and $z_\star$) by minimizing $\chi^2$:
+\begin{equation}
+    \chi^2 = \sum_{i=0}^{N-1} \left( \frac{y_i - a - b x_i}{\sigma_i} \right)^2.\label{eqn:chisq}
+\end{equation}
+Standard linear regression gives analytic solutions for $a$, $b$, and their associated uncertainties, $\sigma_a$ and $\sigma_b$. In principle, each $\sigma_i$ might be different, but as an initial simplifying assumption, take $\sigma_i = \sigma = {\mathrm const.}$ This assumption yields
+\begin{equation}
+    \sigma_a^2 = 2\sigma^2 \frac{2N - 1}{N\left(N + 1\right)},\ 
+    \sigma_b^2 = 2\sigma^2 \frac{12}{\delta x^2 N \left( N^2 - 1 \right).\label{eqn:sigma_a-and-sigma_b} }\\
+\end{equation}
+
+\appendix
+\section{Deriving the Uncertainties}
+
 
 \bibliography{sample631}{}
 \bibliographystyle{aasjournal}
