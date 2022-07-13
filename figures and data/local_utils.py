@@ -40,3 +40,8 @@ def fit_wind_profile(z, ustar, zstar, kappa=0.4):
     b = -ustar/kappa*np.log(zstar/np.min(z))
     
     return lin_fit(x, m, b)
+
+def calc_tilt(pitch, roll):
+    # https://math.stackexchange.com/questions/2563622/vertical-inclination-from-pitch-and-roll
+    return np.degrees(np.arctan(np.sqrt(np.tan(np.radians(roll))**2 +\
+                                        np.tan(np.radians(pitch))**2)))
