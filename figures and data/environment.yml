@@ -1,0 +1,4 @@
+name: Drone_Wind_Profile
+channels:
+  - defaults
+prefix: /Users/bjackson/opt/anaconda3/envs/Drone_Wind_Profile
