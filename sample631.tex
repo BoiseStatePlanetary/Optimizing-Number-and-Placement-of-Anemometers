@@ -280,7 +280,35 @@ We explore how the vertical spacing and number of anemometers impact estimates o
 %% pdflatex sample631.tex
 
 \section{Model}
-According to the Law of the Wall (ref), the velocity profile $u(z)$ as a function of elevation above the surface $z$ is given by
+
+% Thus,
+
+% \begin{equation}
+%     \frac{\sigma_{z_\star}}{z_\star} = \sqrt{2} \kappa \sqrt{\frac{2N - 1}{N \left( N + 1\right) } + \frac{12}{\delta x^2 N \left( N^2 - 1 \right) }} \left( \frac{\sigma}{u_\star} \right)\label{eqn:sigma_zstar}
+% \end{equation}
+% and 
+% \begin{equation}
+%     \frac{\sigma_{u_\star}}{u_\star} = \sqrt{ \frac{12}{N \left( N^2 - 1 \right) } } \left( \frac{\kappa}{\delta x} \right) \left( \frac{\sigma}{u_\star} \right).\label{eqn:sigma_ustar}
+% \end{equation}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures and data/Alamosa_Parking_Lot_Windspeeds.jpg}
+    \caption{Caption}
+    \label{fig:Alamosa_Parking_Lot_Windspeeds}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures and data/example_tilt_and_windspeed.jpg}
+    \caption{Time-series of drone tilt angle (blue) and wind speed (orange dots). The wind speeds are recorded every 2 seconds (0.5 Hz), while the raw drone telemetry is recorded at 100 ms, shown as the light blue curve. The darker blue curve shows the tilt smoothed with a boxcar filter 1-second wide.}
+    \label{fig:example_tilt_and_windspeed}
+\end{figure}
+
+\appendix
+\section{Deriving the Uncertainties}
+
+According to the Law of the Wall, the velocity profile $u(z)$ as a function of elevation above the surface $z$ is given by
 \begin{equation}
     u(z) = \frac{u_\star}{\kappa} \ln \left( \frac{z}{z_\star} \right),\label{eqn:uz_profile}
 \end{equation}
@@ -312,27 +340,6 @@ We can use these expressions to derive uncertainties on the shear velocity $u_\s
     \caption{Uncertainties $\sigma_X$ for estimates of the roughness scale $z_\star$ and shear velocity $u_\star$ as a function of the number of measured wind profile points. The different line styles also show the dependence for various logarithmic spacings of the points relative to the bottom-most point at $z_0$. For example, for $z_i = 2^i z_0$, $z_1 = 2 z_0$, $z_2 = 2^2 z_0$, etc.}
     \label{fig:fractional_uncertainties}
 \end{figure}
-
-% Thus,
-
-% \begin{equation}
-%     \frac{\sigma_{z_\star}}{z_\star} = \sqrt{2} \kappa \sqrt{\frac{2N - 1}{N \left( N + 1\right) } + \frac{12}{\delta x^2 N \left( N^2 - 1 \right) }} \left( \frac{\sigma}{u_\star} \right)\label{eqn:sigma_zstar}
-% \end{equation}
-% and 
-% \begin{equation}
-%     \frac{\sigma_{u_\star}}{u_\star} = \sqrt{ \frac{12}{N \left( N^2 - 1 \right) } } \left( \frac{\kappa}{\delta x} \right) \left( \frac{\sigma}{u_\star} \right).\label{eqn:sigma_ustar}
-% \end{equation}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{figures and data/Alamosa_Parking_Lot_Windspeeds.jpg}
-    \caption{Caption}
-    \label{fig:Alamosa_Parking_Lot_Windspeeds}
-\end{figure}
-
-\appendix
-\section{Deriving the Uncertainties}
-
 
 \bibliography{sample631}{}
 \bibliographystyle{aasjournal}
