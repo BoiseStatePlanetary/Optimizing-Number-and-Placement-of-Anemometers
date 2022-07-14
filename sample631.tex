@@ -151,7 +151,7 @@
 %%
 %% If you wish, you may supply running head information, although
 %% this information may be modified by the editorial offices.
-\shorttitle{Spacing and Number of Anemometers}
+\shorttitle{Estimating Aerodynamic Properties of Planetary Surfaces Using Drone Attitude}
 \shortauthors{Jackson}
 %%
 %% You can add a light gray and diagonal water-mark to the first page 
@@ -169,7 +169,7 @@
 
 \begin{document}
 
-\title{Optimizing Number and Placement of Anemometers for Determining Aerodynamic Properties of Planetary Surfaces}
+\title{Estimating Aerodynamic Properties of Planetary Surfaces Using Drone Attitude}
 
 %% LaTeX will automatically break titles if they run longer than
 %% one line. However, you may use \\ to force a line break if
@@ -281,6 +281,11 @@ We explore how the vertical spacing and number of anemometers impact estimates o
 
 \section{Model}
 
+The aircraft tilt angle relative to the vertical $\theta$ can be calculated from the pitch $\phi$ and roll $\rho$ angles reported from the telemetry stream:
+\begin{equation}
+    \tan^2\theta = \tan^2 \phi + \tan^2 \rho.\label{eqn:tilt}
+\end{equation}
+
 % Thus,
 
 % \begin{equation}
@@ -308,7 +313,7 @@ We explore how the vertical spacing and number of anemometers impact estimates o
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures and data/example_tilt_and_windspeed.jpg}
-    \caption{(a) Time-series of drone tilt angle in degrees (blue) and wind speed in ${\rm m\ s^{-1}}$ (orange dots). The wind speeds are recorded every 2 seconds (at 0.5 Hz), while the raw drone telemetry is recorded at 100 ms, shown as the light blue curve. The darker blue curve shows the tilt smoothed with a boxcar filter 1-second wide. (b) Smoothed aircraft tilt interpolated to the wind speed times (black dots), along with a linear fit.}
+    \caption{(a) Field set-up at Seal Beach. The four anemometers measuring wind speeds at various heights are in the background. The drone is hovering roughly flush with the uppermost anemometer (at 154 cm). The wind direction is roughly right-to-left off the ocean, and the drone's approximate tilt into the wind is illustrated. (The tilt measurements actually analyzed came from the drone's telemetry.) (b) Time-series of drone tilt angle in degrees (blue) and wind speed in ${\rm m\ s^{-1}}$ (orange dots). The wind speeds are recorded every 2 seconds (at 0.5 Hz), while the raw drone telemetry is recorded at 100 ms, shown as the light blue curve. The darker blue curve shows the tilt smoothed with a boxcar filter 1-second wide. (b) Smoothed aircraft tilt interpolated to the wind speed times (black dots), along with a linear fit.}
     \label{fig:example_tilt_and_windspeed}
 \end{figure}
 
