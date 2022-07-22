@@ -7,15 +7,6 @@ def calc_zstar_from_slope_and_intercept(z0, slope, intercept):
 def calc_ustar_from_slope(kappa, slope):
     return kappa*slope
 
-def calc_sigma_ustar(kappa, sigma_slope):
-    return kappa*sigma_slope
-
-def calc_sigma_zstar(slope, zstar, sigma_slope, intercept, sigma_intercept, 
-        slope_intercept_corr):
-    return zstar/slope*np.sqrt(sigma_intercept**2 +\
-            (intercept/slope)**2*sigma_slope**2 -\
-            2*(intercept/slope)*slope_intercept_corr)
-
 def calculate_zstar_from_profile(heights, winds):
     x = np.log(heights/np.min(heights))
     y = winds
@@ -45,3 +36,25 @@ def calc_tilt(pitch, roll):
     # https://math.stackexchange.com/questions/2563622/vertical-inclination-from-pitch-and-roll
     return np.degrees(np.arctan(np.sqrt(np.tan(np.radians(roll))**2 +\
                                         np.tan(np.radians(pitch))**2)))
+
+def chisqg(ydata,ymod,sd=None):
+    """
+    Returns the chi-square error statistic as the sum of squared errors between
+    Ydata(i) and Ymodel(i). If individual standard deviations (array sd) are supplied,
+    then the chi-square error statistic is computed as the sum of squared errors
+    divided by the standard deviations.     Inspired on the IDL procedure linfit.pro.
+    See http://en.wikipedia.org/wiki/Goodness_of_fit for reference.
+
+    x,y,sd assumed to be Numpy arrays. a,b scalars.
+    Returns the float chisq with the chi-square statistic.
+
+    Rodrigo Nemmen
+    http://goo.gl/8S1Oo
+    """
+    # Chi-square statistic (Bevington, eq. 6.9)
+    if sd==None:
+        chisq=np.sum((ydata-ymod)**2)
+    else:
+        chisq=np.sum( ((ydata-ymod)/sd)**2 )
+
+    return chisq
