@@ -4,7 +4,7 @@ from scipy.optimize import curve_fit
 def calc_zstar_from_slope_and_intercept(z0, slope, intercept):
     return z0*np.exp(-intercept/slope)
 
-def calc_ustar_from_slope(kappa, slope):
+def calc_ustar_from_slope_and_intercept(slope, kappa=0.4):
     return kappa*slope
 
 def calculate_zstar_from_profile(heights, winds):
@@ -52,9 +52,32 @@ def chisqg(ydata,ymod,sd=None):
     http://goo.gl/8S1Oo
     """
     # Chi-square statistic (Bevington, eq. 6.9)
-    if sd==None:
+    if np.all(sd==None):
         chisq=np.sum((ydata-ymod)**2)
     else:
         chisq=np.sum( ((ydata-ymod)/sd)**2 )
 
     return chisq
+
+def calc_analytic_sigma_intercept(delta_x, sigma, N):
+    return np.sqrt(2.*sigma**2*(2*N - 1)/N/(N + 1))
+
+def calc_analytic_sigma_slope(delta_x, sigma, N):
+    return np.sqrt(12*sigma**2/delta_x**2/N/(N**2 - 1))
+
+def calc_sigma_intercept_slope(delta_x, sigma, N):
+    return 6*sigma**2/N/(N + 1)/delta_x
+
+def calc_analytic_sigma_ustar(kappa, delta_x, sigma, N):
+    return kappa*calc_analytic_sigma_slope(delta_x, sigma, N)
+
+def calc_analytic_sigma_zstar(z0, slope, intercept, delta_x, sigma, N, kappa=0.4):
+    zstar = calc_zstar_from_slope_and_intercept(z0, slope, intercept)
+    
+    sigma_intercept = calc_analytic_sigma_intercept(sigma, N)
+    sigma_slope = calc_analytic_sigma_slope(delta_x, sigma, N)
+    sigma_intercept_slope = calc_sigma_intercept_slope(delta_x, sigma, N)
+    
+    return zstar*intercept/slope*np.sqrt((sigma_slope/slope)**2 +\
+            (sigma_intercept/intercept)**2 -\
+            2*(sigma_intercept_slope/intercept/slope))
