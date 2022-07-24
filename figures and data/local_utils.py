@@ -4,7 +4,7 @@ from scipy.optimize import curve_fit
 def calc_zstar_from_slope_and_intercept(z0, slope, intercept):
     return z0*np.exp(-intercept/slope)
 
-def calc_ustar_from_slope_and_intercept(slope, kappa=0.4):
+def calc_ustar_from_slope(slope, kappa=0.4):
     return kappa*slope
 
 def calculate_zstar_from_profile(heights, winds):
@@ -59,7 +59,7 @@ def chisqg(ydata,ymod,sd=None):
 
     return chisq
 
-def calc_analytic_sigma_intercept(delta_x, sigma, N):
+def calc_analytic_sigma_intercept(sigma, N):
     return np.sqrt(2.*sigma**2*(2*N - 1)/N/(N + 1))
 
 def calc_analytic_sigma_slope(delta_x, sigma, N):
@@ -68,7 +68,7 @@ def calc_analytic_sigma_slope(delta_x, sigma, N):
 def calc_sigma_intercept_slope(delta_x, sigma, N):
     return 6*sigma**2/N/(N + 1)/delta_x
 
-def calc_analytic_sigma_ustar(kappa, delta_x, sigma, N):
+def calc_analytic_sigma_ustar(delta_x, sigma, N, kappa=0.4):
     return kappa*calc_analytic_sigma_slope(delta_x, sigma, N)
 
 def calc_analytic_sigma_zstar(z0, slope, intercept, delta_x, sigma, N, kappa=0.4):
@@ -81,3 +81,12 @@ def calc_analytic_sigma_zstar(z0, slope, intercept, delta_x, sigma, N, kappa=0.4
     return zstar*intercept/slope*np.sqrt((sigma_slope/slope)**2 +\
             (sigma_intercept/intercept)**2 -\
             2*(sigma_intercept_slope/intercept/slope))
+
+def rescale_sigma(data, mod, sigma):
+    #_NR_, 3rd ed, p. 783 - This equation provides a way to rescale
+    # uncertainties, enforcing reduced chi-squared = 1
+
+    redchisq = chisqg(data, mod, sd=sigma)
+
+    return sigma*np.sqrt(redchisq/(len(data) - 2))
+
