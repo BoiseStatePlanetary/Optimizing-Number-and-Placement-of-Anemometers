@@ -90,3 +90,78 @@ def rescale_sigma(data, mod, sigma):
 
     return sigma*np.sqrt(redchisq/(len(data) - 2))
 
+def calc_S(sigma):
+    return np.sum(1./sigma**2)
+
+def calc_Sx(x, sigma):
+    return np.sum(x/sigma**2)
+
+def calc_Sxx(x, sigma):
+    return np.sum(x**2/sigma**2)
+
+def calc_Sy(y, sigma):
+    return np.sum(y/sigma**2)
+
+def calc_Syy(y, sigma):
+    return np.sum(y**2/sigma**2)
+
+def calc_Sxy(x, y, sigma):
+    return np.sum(x*y/sigma**2)
+
+def calc_Delta(x, sigma):
+    S = calc_S(sigma)
+    Sxx = calc_Sxx(x, sigma)
+    Sx = calc_Sx(x, sigma)
+    
+    return S*Sxx - Sx**2
+
+def calc_intercept(x, y, sigma):
+    Sxx = calc_Sxx(x, sigma)
+    Sy = calc_Sy(y, sigma)
+    Sx = calc_Sx(x, sigma)
+    Sxy = calc_Sxy(x, y, sigma)
+    Delta = calc_Delta(x, sigma)
+    
+    return (Sxx*Sy - Sx*Sxy)/Delta
+
+def calc_slope(x, y, sigma):
+    S = calc_S(sigma)
+    Sxy = calc_Sxy(x, y, sigma)
+    Sx = calc_Sx(x, sigma)
+    Sy = calc_Sy(y, sigma)
+    Delta = calc_Delta(x, sigma)
+    
+    return (S*Sxy - Sx*Sy)/Delta
+
+def calc_cov(x, sigma):
+    return -calc_Sx(x, sigma)/calc_Delta(x, sigma)
+
+def sigma_intercept(x, sigma):
+    Sxx = calc_Sxx(x, sigma)
+    Delta = calc_Delta(x, sigma)
+    
+    return np.sqrt(Sxx/Delta)
+
+def sigma_slope(x, sigma):
+    S = calc_S(sigma)
+    Delta = calc_Delta(x, sigma)
+    
+    return np.sqrt(S/Delta)
+
+def calc_analytic_intercept(delta_x, sigma, N, x, y):
+    Sxx = calc_analytic_Sxx(delta_x, sigma[0], N)
+    Sy = calc_Sy(y, sigma)
+    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
+    Sxy = calc_Sxy(x, y, sigma)
+    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
+
+    return (Sxx*Sy - Sx*Sxy)/Delta
+
+def calc_analytic_slope(delta_x, sigma, N, x, y):
+    S = calc_analytic_S(sigma[0], N)
+    Sxy = calc_Sxy(x, y, sigma)
+    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
+    Sy = calc_Sy(y, sigma)
+    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
+
+    return (S*Sxy - Sx*Sy)/Delta
