@@ -59,6 +59,38 @@ def chisqg(ydata,ymod,sd=None):
 
     return chisq
 
+def redchisqg(ydata,ymod,deg=2,sd=None):
+    """
+    Returns the reduced chi-square error statistic for an arbitrary model,
+    chisq/nu, where nu is the number of degrees of freedom. If individual
+    standard deviations (array sd) are supplied, then the chi-square error
+    statistic is computed as the sum of squared errors divided by the standard
+    deviations. See http://en.wikipedia.org/wiki/Goodness_of_fit for reference.
+    
+    ydata,ymod,sd assumed to be Numpy arrays. deg integer.
+      
+      Usage:
+          >>> chisq=redchisqg(ydata,ymod,n,sd)
+          where
+          ydata : data
+          ymod : model evaluated at the same x points as ydata
+          n : number of free parameters in the model
+          sd : uncertainties in ydata
+          
+          Rodrigo Nemmen
+          http://goo.gl/8S1Oo
+    """
+    # Chi-square statistic
+    if np.all(sd==None):
+        chisq=np.sum((ydata-ymod)**2)
+    else:
+        chisq=np.sum( ((ydata-ymod)/sd)**2 )
+
+    # Number of degrees of freedom
+    nu=ydata.size-1-deg
+
+    return chisq/nu
+
 def calc_analytic_sigma_intercept(sigma, N):
     return np.sqrt(2.*sigma**2*(2*N - 1)/N/(N + 1))
 
@@ -86,9 +118,9 @@ def rescale_sigma(data, mod, sigma):
     #_NR_, 3rd ed, p. 783 - This equation provides a way to rescale
     # uncertainties, enforcing reduced chi-squared = 1
 
-    redchisq = chisqg(data, mod, sd=sigma)
+    chisq = chisqg(data, mod, sd=sigma)
 
-    return sigma*np.sqrt(redchisq/(len(data) - 2))
+    return sigma*np.sqrt(chisq/(len(data) - 2))
 
 def calc_S(sigma):
     return np.sum(1./sigma**2)
