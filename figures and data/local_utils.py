@@ -180,21 +180,23 @@ def sigma_slope(x, sigma):
     
     return np.sqrt(S/Delta)
 
+# For the analytic solutions, some functions want scalar sigma, 
+# others want vector sigma.
 def calc_analytic_intercept(delta_x, sigma, N, x, y):
-    Sxx = calc_analytic_Sxx(delta_x, sigma, N)
+    Sxx = calc_analytic_Sxx(delta_x, sigma[0], N)
     Sy = calc_Sy(y, sigma)
-    Sx = calc_analytic_Sx(delta_x, sigma, N)
+    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
     Sxy = calc_Sxy(x, y, sigma)
-    Delta = calc_analytic_Delta(delta_x, sigma, N)
+    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
 
     return (Sxx*Sy - Sx*Sxy)/Delta
 
 def calc_analytic_slope(delta_x, sigma, N, x, y):
-    S = calc_analytic_S(sigma, N)
+    S = calc_analytic_S(sigma[0], N)
     Sxy = calc_Sxy(x, y, sigma)
-    Sx = calc_analytic_Sx(delta_x, sigma, N)
+    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
     Sy = calc_Sy(y, sigma)
-    Delta = calc_analytic_Delta(delta_x, sigma, N)
+    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
 
     return (S*Sxy - Sx*Sy)/Delta
 
