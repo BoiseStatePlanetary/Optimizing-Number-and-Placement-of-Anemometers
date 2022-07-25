@@ -317,34 +317,19 @@ The aircraft tilt angle relative to the vertical $\theta$ can be calculated from
     \label{fig:example_tilt_and_windspeed}
 \end{figure}
 
-\appendix
-\section{Deriving the Uncertainties}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures and data/Martian_Windspeeds.jpg}
+    \caption{}
+    \label{fig:Martian_Windspeeds}
+\end{figure}
 
-According to the Law of the Wall, the velocity profile $u(z)$ as a function of elevation above the surface $z$ is given by
-\begin{equation}
-    u(z) = \frac{u_\star}{\kappa} \ln \left( \frac{z}{z_\star} \right),\label{eqn:uz_profile}
-\end{equation}
-where $u_\star$ is the friction velocity, $\kappa$ is von K\'{a}rm\'{a}n's constant (0.4), and $z_\star$ is the roughness length. (N.B. $z_\star$ is usually denoted as $z_0$, but for notational convenience, we will use this alternate notation.) This equation can be re-cast as a linear equation:
-\begin{equation}
-    y(x) = m x + b,\label{eqn:linear_eqn}
-\end{equation}
-with $x = \ln \left( z/z_0 \right)$ with $z_0$ the height of the lowest anemometer, $m = u_\star/\kappa$, $b = -\left(u_\star/\kappa\right) \ln\left( z_\star/z_0 \right)$.
-
-Assume there are $N$ anemometers strung along a mast with the $i$th anemometer at a height $z_i$ (with $i \in [0, N-1]$). Usually, the anemometers are spaced logarithmically, i.e. $z_{i+1}/z_i = \delta z$ with $\delta z$ a constant for all $i$ (which translates into a regular spacing $\delta x = \ln(z_{i+1}/z_i)$ for the $x_i$). The $i$th anemometer will measure windspeed $y_i = y(x_i)$ with an uncertainty or scatter $\sigma_i$. Traditionally, we would estimate the best-fit slope $m$ and intercept $b$ (and therefrom $u_\star$ and $z_\star$) by minimizing $\chi^2$:
-\begin{equation}
-    \chi^2 = \sum_{i=0}^{N-1} \left( \frac{y_i - b - m x_i}{\sigma_i} \right)^2.\label{eqn:chisq}
-\end{equation}
-Standard linear regression gives analytic solutions for $b$, $m$, and their associated uncertainties, $\sigma_b$ and $\sigma_m$, and covariance $\sigma_{bm}$. In principle, each $\sigma_i$ might be different, but as an initial simplifying assumption, take $\sigma_i = \sigma = {\rm const.}$ This assumption yields
-\begin{equation}
-    \sigma_b^2 = 2\sigma^2 \frac{2N - 1}{N\left(N + 1\right)},\ 
-    \sigma_m^2 = 2\sigma^2 \frac{12}{\delta x^2 N \left( N^2 - 1 \right)},\ 
-    \sigma_{bm} = \frac{6 \sigma^2}{N \left( N + 1\right) \delta x \label{eqn:sigma_b-and-sigma_m} }\\
-\end{equation}
-
-We can use these expressions to derive uncertainties on the shear velocity $u_\star$ and roughness $z_\star$. For example, 
-\begin{equation}
-\sigma_{z_\star} = \frac{z_\star}{m} \sqrt{ \sigma_b^2 + \left( \frac{b}{m} \right)^2 \sigma_m^2 - 2 \left( \frac{b}{m} \right) \sigma_{b m}},
-\end{equation}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures and data/synthetic_martian_wind_profile.jpg}
+    \caption{Same as Figure \ref{fig:synthetic_terrestrial_wind_profile} except for the wind speeds in Figure \ref{fig:Martian_Windspeeds}.}
+    \label{fig:synthetic_martian_wind_profile}
+\end{figure}
 
 \bibliography{sample631}{}
 \bibliographystyle{aasjournal}
