@@ -149,19 +149,34 @@ def sigma_slope(x, sigma):
     return np.sqrt(S/Delta)
 
 def calc_analytic_intercept(delta_x, sigma, N, x, y):
-    Sxx = calc_analytic_Sxx(delta_x, sigma[0], N)
+    Sxx = calc_analytic_Sxx(delta_x, sigma, N)
     Sy = calc_Sy(y, sigma)
-    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
+    Sx = calc_analytic_Sx(delta_x, sigma, N)
     Sxy = calc_Sxy(x, y, sigma)
-    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
+    Delta = calc_analytic_Delta(delta_x, sigma, N)
 
     return (Sxx*Sy - Sx*Sxy)/Delta
 
 def calc_analytic_slope(delta_x, sigma, N, x, y):
-    S = calc_analytic_S(sigma[0], N)
+    S = calc_analytic_S(sigma, N)
     Sxy = calc_Sxy(x, y, sigma)
-    Sx = calc_analytic_Sx(delta_x, sigma[0], N)
+    Sx = calc_analytic_Sx(delta_x, sigma, N)
     Sy = calc_Sy(y, sigma)
-    Delta = calc_analytic_Delta(delta_x, sigma[0], N)
+    Delta = calc_analytic_Delta(delta_x, sigma, N)
 
     return (S*Sxy - Sx*Sy)/Delta
+
+def calc_analytic_S(sigma, N):
+    return N/sigma**2
+
+def calc_analytic_Delta(delta_x, sigma, N):
+    return delta_x**2/12/sigma**4*N**2*(N**2 - 1)
+
+def calc_analytic_S(sigma, N):
+    return N/sigma**2
+
+def calc_analytic_Sx(delta_x, sigma, N):
+    return 0.5*delta_x/sigma**2*(N - 1)*N
+
+def calc_analytic_Sxx(delta_x, sigma, N):
+    return delta_x**2/sigma**2*(N - 1)*N*(2*N - 1)/6
