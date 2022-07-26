@@ -114,13 +114,13 @@ def calc_analytic_sigma_zstar(z0, slope, intercept, delta_x, sigma, N, kappa=0.4
             (sigma_intercept/intercept)**2 +\
             2*(sigma_intercept_slope/intercept/slope))
 
-def rescale_sigma(data, mod, sigma):
+def rescale_sigma(data, mod, sigma, dof=2):
     #_NR_, 3rd ed, p. 783 - This equation provides a way to rescale
     # uncertainties, enforcing reduced chi-squared = 1
 
     chisq = chisqg(data, mod, sd=sigma)
 
-    return sigma*np.sqrt(chisq/(len(data) - 2))
+    return sigma*np.sqrt(chisq/(len(data) - dof))
 
 def calc_S(sigma):
     return np.sum(1./sigma**2)
@@ -214,3 +214,16 @@ def calc_analytic_Sx(delta_x, sigma, N):
 
 def calc_analytic_Sxx(delta_x, sigma, N):
     return delta_x**2/sigma**2*(N - 1)*N*(2*N - 1)/6
+
+def calc_analytic_fractional_zstar_uncertainty(N, kappa=0.4, z0_over_zstar=25., sigma_over_ustar=1.,
+                                               delta_x=np.log(2)):
+    term1 = np.log(z0_over_zstar)**2*12/N/(N**2 - 1)/delta_x**2
+    term2 = 2*(2*N - 1)/N/(N + 1)
+    term3 = 2*np.log(z0_over_zstar)*6/N/(N + 1)/delta_x
+    analytic_fraction_sigma_zstar = kappa*sigma_over_ustar*np.sqrt(term1 + term2 + term3)
+
+    return analytic_fraction_sigma_zstar
+
+def calc_analytic_fractional_ustar_uncertainty(N, sigma_over_ustar=1., delta_x=np.log(2), kappa=0.4):
+
+    return kappa*np.sqrt(12./(N*(N**2 - 1)*delta_x**2))*sigma_over_ustar
