@@ -111,7 +111,7 @@ def calc_analytic_sigma_zstar(z0, slope, intercept, delta_x, sigma, N, kappa=0.4
     sigma_intercept_slope = calc_sigma_intercept_slope(delta_x, sigma, N)
     
     return zstar*intercept/slope*np.sqrt((sigma_slope/slope)**2 +\
-            (sigma_intercept/intercept)**2 -\
+            (sigma_intercept/intercept)**2 +\
             2*(sigma_intercept_slope/intercept/slope))
 
 def rescale_sigma(data, mod, sigma):
