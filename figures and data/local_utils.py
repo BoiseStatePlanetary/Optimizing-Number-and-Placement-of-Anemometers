@@ -227,3 +227,10 @@ def calc_analytic_fractional_zstar_uncertainty(N, kappa=0.4, z0_over_zstar=25., 
 def calc_analytic_fractional_ustar_uncertainty(N, sigma_over_ustar=1., delta_x=np.log(2), kappa=0.4):
 
     return kappa*np.sqrt(12./(N*(N**2 - 1)*delta_x**2))*sigma_over_ustar
+
+def calc_sigma_zstar(z0, slope, intercept, sigma_slope, sigma_intercept, kappa=0.4):
+    zstar = calc_zstar_from_slope_and_intercept(z0, slope, intercept)
+    return zstar*intercept/slope*np.sqrt((sigma_slope/slope)**2 + (sigma_intercept/intercept)**2)
+
+def calc_sigma_ustar(sigma_slope, kappa=0.4):
+    return kappa*sigma_slope
